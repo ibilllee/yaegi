@@ -1,6 +1,8 @@
 package interp
 
 import (
+	"code.byted.org/gopkg/logs"
+	"encoding/json"
 	"path"
 	"path/filepath"
 )
@@ -289,11 +291,17 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 					if sym, exists := sc.sym[name]; !exists {
 						sc.sym[name] = &symbol{kind: pkgSym, typ: &itype{cat: srcPkgT, path: ipath, scope: sc}}
 						break
-					} else if sym.kind == pkgSym && (sym.typ.cat == srcPkgT || sym.typ.cat == binPkgT) && sym.typ.path == ipath {
+					} else if sym.kind == pkgSym && sym.typ.cat == srcPkgT && sym.typ.path == ipath {
 						// ignore re-import of identical package
 						break
 					}
 
+					symKeys := make([]string, 0)
+					for k, _ := range sc.sym {
+						symKeys = append(symKeys, k)
+					}
+					symKeysJson, _ := json.Marshal(symKeys)
+					logs.Error("redeclaration error, name: %s, ipath: %s, importPath:%v, pkgName:%v, symKey:%s", name, ipath, importPath, pkgName, string(symKeysJson))
 					// redeclaration error
 					err = n.cfgErrorf("%s redeclared as imported package name", name)
 					return false
