@@ -265,10 +265,11 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 						// ignore re-import of identical package
 						break
 					}
+					break
 
 					// redeclaration error. Not caught by the parser.
-					err = n.cfgErrorf("%s redeclared in this block 3", name)
-					return false
+					//err = n.cfgErrorf("%s redeclared in this block 3", name)
+					//return false
 				}
 			} else if pkgName, err = interp.importSrc(rpath, ipath, NoTest); err == nil {
 				sc.types = interp.universe.types
@@ -288,7 +289,7 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 					if sym, exists := sc.sym[name]; !exists {
 						sc.sym[name] = &symbol{kind: pkgSym, typ: &itype{cat: srcPkgT, path: ipath, scope: sc}}
 						break
-					} else if sym.kind == pkgSym && sym.typ.cat == srcPkgT && sym.typ.path == ipath {
+					} else if sym.kind == pkgSym && (sym.typ.cat == srcPkgT || sym.typ.cat == binPkgT) && sym.typ.path == ipath {
 						// ignore re-import of identical package
 						break
 					}
