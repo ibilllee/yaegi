@@ -136,10 +136,10 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 				// redeclaration error
 				if sym.typ.node != nil && sym.typ.node.anc != nil {
 					prevDecl := n.interp.fset.Position(sym.typ.node.anc.pos)
-					err = n.cfgErrorf("%s redeclared in this block\n\tprevious declaration at %v", c.ident, prevDecl)
+					err = n.cfgErrorf("%s redeclared in this block 5\n\tprevious declaration at %v", c.ident, prevDecl)
 					return false
 				}
-				err = n.cfgErrorf("%s redeclared in this block", c.ident)
+				err = n.cfgErrorf("%s redeclared in this block 1", c.ident)
 				return false
 			}
 
@@ -206,7 +206,7 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 				asImportName := filepath.Join(ident, baseName)
 				if _, exists := sc.sym[asImportName]; exists {
 					// redeclaration error
-					err = n.cfgErrorf("%s redeclared in this block", ident)
+					err = n.cfgErrorf("%s redeclared in this block 2", ident)
 					return false
 				}
 				// Add a function symbol in the package name space except for init
@@ -267,7 +267,7 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 					}
 
 					// redeclaration error. Not caught by the parser.
-					err = n.cfgErrorf("%s redeclared in this block", name)
+					err = n.cfgErrorf("%s redeclared in this block 3", name)
 					return false
 				}
 			} else if pkgName, err = interp.importSrc(rpath, ipath, NoTest); err == nil {
@@ -348,7 +348,7 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 			asImportName := filepath.Join(typeName, baseName)
 			if _, exists := sc.sym[asImportName]; exists {
 				// redeclaration error
-				err = n.cfgErrorf("%s redeclared in this block", typeName)
+				err = n.cfgErrorf("%s redeclared in this block 4", typeName)
 				return false
 			}
 			sym, exists := sc.sym[typeName]
