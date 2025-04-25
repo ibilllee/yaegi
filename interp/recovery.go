@@ -57,19 +57,19 @@ func (interp *Interpreter) SaveArchive() *InterpreterArchive {
 func (interp *Interpreter) RestoreArchive(archive *InterpreterArchive, packNameToRmv string) {
 	interp.nindex = archive.nindex
 
-	counter := 0
-	fileSet := interp.FileSet()
-	fileNeedToRmv := make([]*token.File, 0)
-	fileSet.Iterate(func(f *token.File) bool {
-		counter++
-		if counter > archive.fsetFilesLen {
-			fileNeedToRmv = append(fileNeedToRmv, f)
-		}
-		return true
-	})
-	for _, file := range fileNeedToRmv {
-		fileSet.RemoveFile(file)
-	}
+	//counter := 0
+	//fileSet := interp.FileSet()
+	//fileNeedToRmv := make([]*token.File, 0)
+	//fileSet.Iterate(func(f *token.File) bool {
+	//	counter++
+	//	if counter > archive.fsetFilesLen {
+	//		fileNeedToRmv = append(fileNeedToRmv, f)
+	//	}
+	//	return true
+	//})
+	//for _, file := range fileNeedToRmv {
+	//	fileSet.RemoveFile(file)
+	//}
 
 	interp.frame.data = interp.frame.data[:archive.frameDataLen]
 
