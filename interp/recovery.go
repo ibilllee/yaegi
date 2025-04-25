@@ -54,7 +54,7 @@ func (interp *Interpreter) SaveArchive() *InterpreterArchive {
 	return archive
 }
 
-func (interp *Interpreter) RestoreArchive(archive *InterpreterArchive, packNameToRmv string) {
+func (interp *Interpreter) RestoreArchive(archive *InterpreterArchive, packsNameToRmv []string) {
 	interp.nindex = archive.nindex
 
 	//counter := 0
@@ -75,13 +75,15 @@ func (interp *Interpreter) RestoreArchive(archive *InterpreterArchive, packNameT
 
 	interp.universe.child = interp.universe.child[:archive.universeChildLen]
 	interp.universe.types = interp.universe.types[:archive.universeTypesLen]
-	delete(interp.universe.sym, packNameToRmv)
+	for _, packName := range packsNameToRmv {
+		delete(interp.universe.sym, packName)
 
-	delete(interp.scopes, packNameToRmv)
+		delete(interp.scopes, packName)
 
-	delete(interp.srcPkg, packNameToRmv)
+		delete(interp.srcPkg, packName)
 
-	delete(interp.pkgNames, packNameToRmv)
+		delete(interp.pkgNames, packName)
+	}
 
 	interp.roots = interp.roots[:archive.rootsLen]
 }
