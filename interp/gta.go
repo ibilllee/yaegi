@@ -267,11 +267,10 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 						// ignore re-import of identical package
 						break
 					}
-					break
 
 					// redeclaration error. Not caught by the parser.
-					//err = n.cfgErrorf("%s redeclared in this block 3", name)
-					//return false
+					err = n.cfgErrorf("%s redeclared in this block 3", name)
+					return false
 				}
 			} else if pkgName, err = interp.importSrc(rpath, ipath, NoTest); err == nil {
 				sc.types = interp.universe.types
