@@ -1,6 +1,7 @@
 package interp
 
 import (
+	"code.byted.org/gopkg/logs"
 	"go/token"
 )
 
@@ -77,6 +78,11 @@ func (interp *Interpreter) RestoreArchive(archive *InterpreterArchive, packsName
 		delete(interp.universe.sym, packName)
 
 		delete(interp.scopes, packName)
+		hasPackage := false
+		if interp.scopes[packName] != nil {
+			hasPackage = true
+		}
+		logs.Warn("scopes has pack[%v]: %v", packName, hasPackage)
 
 		delete(interp.srcPkg, packName)
 
