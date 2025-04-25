@@ -268,6 +268,13 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 						break
 					}
 
+					symKeys := make([]string, 0)
+					for k, _ := range sc.sym {
+						symKeys = append(symKeys, k)
+					}
+					symKeysJson, _ := json.Marshal(symKeys)
+					logs.Error("redeclaration error, name: %s, ipath: %s, importPath:%v, pkgName:%v, symKey:%s", name, ipath, importPath, pkgName, string(symKeysJson))
+
 					// redeclaration error. Not caught by the parser.
 					err = n.cfgErrorf("%s redeclared in this block 3", name)
 					return false
@@ -295,12 +302,6 @@ func (interp *Interpreter) gta(root *node, rpath, importPath, pkgName string) ([
 						break
 					}
 
-					symKeys := make([]string, 0)
-					for k, _ := range sc.sym {
-						symKeys = append(symKeys, k)
-					}
-					symKeysJson, _ := json.Marshal(symKeys)
-					logs.Error("redeclaration error, name: %s, ipath: %s, importPath:%v, pkgName:%v, symKey:%s", name, ipath, importPath, pkgName, string(symKeysJson))
 					// redeclaration error
 					err = n.cfgErrorf("%s redeclared as imported package name", name)
 					return false
