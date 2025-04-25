@@ -1,7 +1,6 @@
 package interp
 
 import (
-	"fmt"
 	"go/token"
 )
 
@@ -33,7 +32,6 @@ func (interp *Interpreter) SaveArchive() *InterpreterArchive {
 	fileSet := interp.FileSet()
 	archive.fsetFilesLen = 0
 	fileSet.Iterate(func(f *token.File) bool {
-		fmt.Print(f.Name())
 		archive.fsetFilesLen++
 		return true
 	})
